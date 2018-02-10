@@ -1,0 +1,35 @@
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:$android_plugin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+ext {
+    def prop = loadVersionProperties()
+    version_name = prop.getProperty('version_name')
+    version_code = prop.getProperty('version_code')
+}
+
+def loadVersionProperties() {
+    def prop = new Properties()
+    def propName = hasProperty('version_properties') ?
+            version_properties : 'version.properties'
+    prop.load(new File(projectDir, propName).newInputStream())
+    prop
+}
